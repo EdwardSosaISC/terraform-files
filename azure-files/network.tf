@@ -25,6 +25,9 @@ resource "azurerm_subnet" "aci" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = [var.aci_subnet_cidr]
   
+  # Service endpoints para CosmosDB y Storage
+  service_endpoints = ["Microsoft.AzureCosmosDB", "Microsoft.Storage"]
+  
   delegation {
     name = "aci-delegation"
     
