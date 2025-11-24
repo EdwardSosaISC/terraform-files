@@ -1,6 +1,6 @@
 # Storage Account for Blob Storage (equivalent to S3)
 resource "azurerm_storage_account" "main" {
-  name                     = "${replace(var.project_name, "-", "")}storage${var.environment}"
+  name                     = "mcdrstg${substr(var.environment, 0, 4)}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = var.storage_account_tier
@@ -66,7 +66,7 @@ resource "azurerm_private_endpoint" "storage" {
 
 # Storage Account for Data Factory
 resource "azurerm_storage_account" "datafactory" {
-  name                     = "${replace(var.project_name, "-", "")}df${substr(var.environment, 0, 4)}"
+  name                     = "mcdrdf${substr(var.environment, 0, 4)}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
