@@ -1,7 +1,7 @@
 # Azure CosmosDB Account (with MongoDB API for compatibility)
 resource "azurerm_cosmosdb_account" "main" {
   name                = "${var.project_name}-cosmos-${var.environment}"
-  location            = azurerm_resource_group.main.location
+  location            = "centralus"  # CAMBIO: usar región con capacidad disponible
   resource_group_name = azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
@@ -15,7 +15,7 @@ resource "azurerm_cosmosdb_account" "main" {
 
   # Serverless solo soporta UNA región, sin Availability Zones
   geo_location {
-    location          = azurerm_resource_group.main.location
+    location          = "centralus"  # CAMBIO: misma región que el account
     failover_priority = 0
     zone_redundant    = false  # CRÍTICO: deshabilitar para evitar error de capacidad
   }
@@ -24,9 +24,10 @@ resource "azurerm_cosmosdb_account" "main" {
     name = "EnableMongo"
   }
 
-  capabilities {
-    name = "EnableServerless"
-  }
+  # Comentar Serverless temporalmente si da problemas de capacidad
+  # capabilities {
+  #   name = "EnableServerless"
+  # }
 
   # MongoDB API version
   mongo_server_version = "3.6"
@@ -68,6 +69,9 @@ resource "azurerm_cosmosdb_mongo_database" "main" {
   name                = "multicloud-dr-db"
   resource_group_name = azurerm_resource_group.main.name
   account_name        = azurerm_cosmosdb_account.main.name
+  
+  # Throughput mínimo para modo Provisioned (no Serverless)
+  throughput = 400  # Mínimo permitido, escalable manualmente
 }
 
 # Main Data Collection (equivalent to DynamoDB main table)
@@ -93,6 +97,8 @@ resource "azurerm_cosmosdb_mongo_collection" "main_data" {
   }
 
   shard_key = "id"
+  
+  # Sin throughput propio, usa el de la database
 }
 
 # PDF Metadata Collection (equivalent to DynamoDB pdf metadata table)
@@ -118,12 +124,14 @@ resource "azurerm_cosmosdb_mongo_collection" "pdf_metadata" {
   }
 
   shard_key = "pdf_id"
+  
+  # Sin throughput propio, usa el de la database
 }
 
 # Private Endpoint for CosmosDB
 resource "azurerm_private_endpoint" "cosmosdb" {
   name                = "${var.project_name}-cosmosdb-pe"
-  location            = azurerm_resource_group.main.location
+  location            = azurerm_resource_group.main.location  # El endpoint SÍ debe estar en la VNet (eastus)
   resource_group_name = azurerm_resource_group.main.name
   subnet_id           = azurerm_subnet.database.id
 
