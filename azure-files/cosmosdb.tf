@@ -47,11 +47,9 @@ resource "azurerm_cosmosdb_account" "main" {
   # Enable multiple write locations for active-active
   multiple_write_locations_enabled = false
 
-  # Backup policy
+  # Backup policy - Continuous mode doesn't need interval/retention
   backup {
-    type                = "Continuous"
-    interval_in_minutes = 240
-    retention_in_hours  = 8
+    type = "Continuous"
   }
 
   tags = local.common_tags

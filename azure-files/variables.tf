@@ -35,14 +35,14 @@ variable "environment" {
 variable "project_name" {
   description = "Project name"
   type        = string
-  default     = "multicloud-dr"
+  default     = "multicloud-dr-v2"
 }
 
 # Resource Group
 variable "resource_group_name" {
   description = "Resource Group name"
   type        = string
-  default     = "rg-multicloud-dr-prod"
+  default     = "rg-multicloud-dr-v2"
 }
 
 # VNet CIDR
@@ -62,7 +62,7 @@ variable "aks_subnet_cidr" {
 variable "aci_subnet_cidr" {
   description = "Azure Container Instances subnet CIDR"
   type        = string
-  default     = "10.20.1.0/24"
+  default     = "10.20.4.0/24"
 }
 
 variable "db_subnet_cidr" {
@@ -99,7 +99,7 @@ variable "aks_node_size" {
 variable "kubernetes_version" {
   description = "Kubernetes version for AKS"
   type        = string
-  default     = "1.28"
+  default     = "1.29"
 }
 
 # Azure Container Instances (ACI) Configuration
