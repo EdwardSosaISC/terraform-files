@@ -25,27 +25,27 @@ output "vpn_gateway_public_ip" {
   value       = azurerm_public_ip.vpn_gateway.ip_address
 }
 
-# AKS
-output "aks_cluster_name" {
-  description = "AKS Cluster name"
-  value       = azurerm_kubernetes_cluster.main.name
-}
+# AKS (Deprecated - using ACI now)
+# output "aks_cluster_name" {
+#   description = "AKS Cluster name"
+#   value       = azurerm_kubernetes_cluster.main.name
+# }
 
-output "aks_cluster_id" {
-  description = "AKS Cluster ID"
-  value       = azurerm_kubernetes_cluster.main.id
-}
+# output "aks_cluster_id" {
+#   description = "AKS Cluster ID"
+#   value       = azurerm_kubernetes_cluster.main.id
+# }
 
-output "aks_kube_config" {
-  description = "AKS kubectl config (sensitive)"
-  value       = azurerm_kubernetes_cluster.main.kube_config_raw
-  sensitive   = true
-}
+# output "aks_kube_config" {
+#   description = "AKS kubectl config (sensitive)"
+#   value       = azurerm_kubernetes_cluster.main.kube_config_raw
+#   sensitive   = true
+# }
 
-output "aks_cluster_fqdn" {
-  description = "AKS Cluster FQDN"
-  value       = azurerm_kubernetes_cluster.main.fqdn
-}
+# output "aks_cluster_fqdn" {
+#   description = "AKS Cluster FQDN"
+#   value       = azurerm_kubernetes_cluster.main.fqdn
+# }
 
 # ACR (Note: Using existing ACR multiclouddrnicolas)
 output "acr_name" {
@@ -184,11 +184,11 @@ output "next_steps" {
     
     Next Steps:
     
-    1. Configure kubectl to connect to AKS:
-       az aks get-credentials --resource-group ${azurerm_resource_group.main.name} --name ${azurerm_kubernetes_cluster.main.name}
+    1. Container Instances are already deployed and running
+       No need for kubectl or ACR login - using existing ACR: ${var.acr_name}
     
-    2. Login to Azure Container Registry:
-       az acr login --name ${azurerm_container_registry.main.name}
+    2. Verify Container Instances:
+       az container list --resource-group ${azurerm_resource_group.main.name} --output table
     
     3. Images already in ACR multiclouddrnicolas:
        multiclouddrnicolas.azurecr.io/multicloud-dr/api-gateway:latest

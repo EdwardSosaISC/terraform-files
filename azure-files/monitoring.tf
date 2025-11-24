@@ -29,30 +29,30 @@ resource "azurerm_monitor_action_group" "main" {
   tags = local.common_tags
 }
 
-# Metric Alert for AKS CPU usage
-resource "azurerm_monitor_metric_alert" "aks_cpu" {
-  name                = "${var.project_name}-aks-cpu-alert"
-  resource_group_name = azurerm_resource_group.main.name
-  scopes              = [azurerm_kubernetes_cluster.main.id]
-  description         = "Alert when AKS CPU usage is high"
-  severity            = 2
-  frequency           = "PT1M"
-  window_size         = "PT5M"
-
-  criteria {
-    metric_namespace = "Microsoft.ContainerService/managedClusters"
-    metric_name      = "node_cpu_usage_percentage"
-    aggregation      = "Average"
-    operator         = "GreaterThan"
-    threshold        = 80
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.main.id
-  }
-
-  tags = local.common_tags
-}
+# Metric Alert for AKS CPU usage (Deprecated - using ACI now)
+# resource "azurerm_monitor_metric_alert" "aks_cpu" {
+#   name                = "${var.project_name}-aks-cpu-alert"
+#   resource_group_name = azurerm_resource_group.main.name
+#   scopes              = [azurerm_kubernetes_cluster.main.id]
+#   description         = "Alert when AKS CPU usage is high"
+#   severity            = 2
+#   frequency           = "PT1M"
+#   window_size         = "PT5M"
+#
+#   criteria {
+#     metric_namespace = "Microsoft.ContainerService/managedClusters"
+#     metric_name      = "node_cpu_usage_percentage"
+#     aggregation      = "Average"
+#     operator         = "GreaterThan"
+#     threshold        = 80
+#   }
+#
+#   action {
+#     action_group_id = azurerm_monitor_action_group.main.id
+#   }
+#
+#   tags = local.common_tags
+# }
 
 # Metric Alert for CosmosDB Request Units
 resource "azurerm_monitor_metric_alert" "cosmosdb_ru" {
