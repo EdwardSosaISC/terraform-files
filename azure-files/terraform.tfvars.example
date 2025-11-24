@@ -1,0 +1,39 @@
+# Azure Container Instances - Variables de Configuración
+# Copia este archivo a terraform.tfvars y completa los valores
+
+# ============================================
+# ACR Configuration (REQUERIDO)
+# ============================================
+# Obtener credenciales con:
+# az acr credential show --name multiclouddrnicolas
+
+acr_name           = "multiclouddrnicolas"
+acr_admin_username = "" # Completar con el username del ACR
+acr_admin_password = "" # Completar con el password del ACR
+
+# ============================================
+# Azure Container Instances Resources
+# ============================================
+aci_cpu    = 1    # CPU cores por contenedor (0.5, 1, 2, 4)
+aci_memory = 1.5  # GB de memoria por contenedor
+
+# ============================================
+# Networking
+# ============================================
+aci_subnet_cidr = "10.20.1.0/24"  # Subnet para ACI
+
+# ============================================
+# AWS VPN Configuration (Opcional)
+# ============================================
+# Configurar después del despliegue de AWS
+aws_vpn_gateway_ip = ""  # IP pública del VPN Gateway de AWS
+aws_vpc_cidr       = "10.0.0.0/16"  # CIDR de la VPC de AWS
+vpn_shared_key     = "MySecureSharedKey123!"  # Cambiar en producción
+
+# ============================================
+# AWS S3 Configuration para Data Factory
+# ============================================
+aws_s3_bucket_name   = "multicloud-pdf-storage-dios-2025"
+aws_access_key_id    = ""  # Completar si se usa Data Factory
+aws_secret_access_key = ""  # Completar si se usa Data Factory
+aws_region           = "us-east-1"

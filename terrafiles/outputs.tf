@@ -41,6 +41,22 @@ output "alb_arn" {
   value       = aws_lb.main.arn
 }
 
+output "alb_zone_id" {
+  description = "Application Load Balancer Zone ID"
+  value       = aws_lb.main.zone_id
+}
+
+# Gateway endpoints
+output "gateway_endpoint" {
+  description = "API Gateway endpoint URL"
+  value       = "http://${aws_lb.main.dns_name}"
+}
+
+output "gateway_health_endpoint" {
+  description = "Gateway health check endpoint"
+  value       = "http://${aws_lb.main.dns_name}/health"
+}
+
 # DynamoDB Tables
 output "dynamodb_main_table_name" {
   description = "Main DynamoDB table name"
