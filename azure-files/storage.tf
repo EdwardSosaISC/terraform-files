@@ -64,9 +64,9 @@ resource "azurerm_private_endpoint" "storage" {
   tags = local.common_tags
 }
 
-# Storage Account for Data Factory staging
+# Storage Account for Data Factory
 resource "azurerm_storage_account" "datafactory" {
-  name                     = "${replace(var.project_name, "-", "")}dfstg${var.environment}"
+  name                     = "${replace(var.project_name, "-", "")}df${substr(var.environment, 0, 4)}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"

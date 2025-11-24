@@ -86,9 +86,9 @@ output "cosmosdb_endpoint" {
 }
 
 output "cosmosdb_connection_strings" {
-  description = "CosmosDB connection strings"
-  value       = azurerm_cosmosdb_account.main.connection_strings
-  sensitive   = true
+  description = "CosmosDB connection strings (deprecated - use primary_key)"
+  value       = "Use cosmosdb_primary_key instead"
+  sensitive   = false
 }
 
 output "cosmosdb_primary_key" {

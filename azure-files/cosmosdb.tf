@@ -42,7 +42,7 @@ resource "azurerm_cosmosdb_account" "main" {
   }
 
   # Enable automatic failover
-  enable_automatic_failover = true
+  automatic_failover_enabled = true
 
   # Enable multiple write locations for active-active
   enable_multiple_write_locations = false
