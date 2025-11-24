@@ -26,6 +26,12 @@ resource "azurerm_application_gateway" "main" {
     subnet_id = azurerm_subnet.appgw.id
   }
 
+  # SSL/TLS Policy - Usar política moderna (no deprecada)
+  ssl_policy {
+    policy_type = "Predefined"
+    policy_name = "AppGwSslPolicy20220101"  # Política TLS 1.2 moderna
+  }
+
   # Frontend configuration
   frontend_port {
     name = "http-port"
