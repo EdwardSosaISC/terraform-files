@@ -6,20 +6,18 @@ resource "azurerm_cosmosdb_account" "main" {
   offer_type          = "Standard"
   kind                = "MongoDB"
 
+  # Consistency policy - Ajustado para coincidir con Azure
   consistency_policy {
-    consistency_level       = var.cosmosdb_consistency_level
-    max_interval_in_seconds = 10
-    max_staleness_prefix    = 200
+    consistency_level       = "Session"  # Azure usa Session por defecto
+    max_interval_in_seconds = 5
+    max_staleness_prefix    = 100
   }
 
+  # Serverless solo soporta UNA región, sin Availability Zones
   geo_location {
     location          = azurerm_resource_group.main.location
     failover_priority = 0
-  }
-
-  geo_location {
-    location          = var.azure_location_secondary
-    failover_priority = 1
+    zone_redundant    = false  # CRÍTICO: deshabilitar para evitar error de capacidad
   }
 
   capabilities {
@@ -30,27 +28,37 @@ resource "azurerm_cosmosdb_account" "main" {
     name = "EnableServerless"
   }
 
+  # MongoDB API version
+  mongo_server_version = "3.6"
+
   # Network rules
   is_virtual_network_filter_enabled = true
+  public_network_access_enabled     = true
 
   virtual_network_rule {
-    id = azurerm_subnet.database.id
+    id                                   = azurerm_subnet.database.id
+    ignore_missing_vnet_service_endpoint = false
   }
 
   virtual_network_rule {
-    id = azurerm_subnet.aks.id
+    id                                   = azurerm_subnet.aci.id
+    ignore_missing_vnet_service_endpoint = false
   }
 
-  # Enable automatic failover
-  automatic_failover_enabled = true
-
-  # Enable multiple write locations for active-active
+  # Serverless no soporta automatic failover ni multiple writes
+  automatic_failover_enabled       = false
   multiple_write_locations_enabled = false
 
-  # Backup policy - Continuous mode doesn't need interval/retention
+  # Backup policy - Serverless usa backup periódico con Geo redundancy
   backup {
-    type = "Continuous"
+    type                = "Periodic"
+    interval_in_minutes = 240
+    retention_in_hours  = 8
+    storage_redundancy  = "Geo"
   }
+
+  # Analytical storage deshabilitado
+  analytical_storage_enabled = false
 
   tags = local.common_tags
 }

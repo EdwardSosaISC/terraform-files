@@ -20,9 +20,9 @@ resource "azurerm_storage_account" "main" {
     }
   }
 
-  # Network rules
+  # Network rules - Temporalmente permisivo para deployment
   network_rules {
-    default_action             = "Deny"
+    default_action             = "Allow"  # Cambiar a "Deny" después del deployment
     virtual_network_subnet_ids = [
       azurerm_subnet.aks.id,
       azurerm_subnet.database.id
