@@ -1,0 +1,31 @@
+alb_arn = "arn:aws:elasticloadbalancing:us-east-1:503492729400:loadbalancer/app/multicloud-dr-alb/929ef3cef3f4938f"
+alb_dns_name = "multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com"
+alb_url = "http://multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com"
+dynamodb_main_table_arn = "arn:aws:dynamodb:us-east-1:503492729400:table/multicloud-dr-data2"
+dynamodb_main_table_name = "multicloud-dr-data2"
+dynamodb_pdf_table_arn = "arn:aws:dynamodb:us-east-1:503492729400:table/multicloud-dr-pdf-metadata"
+dynamodb_pdf_table_name = "multicloud-dr-pdf-metadata"
+ecr_repositories = {
+  "api_gateway" = "503492729400.dkr.ecr.us-east-1.amazonaws.com/multicloud-dr/api-gateway:latest"
+  "data_processor" = "503492729400.dkr.ecr.us-east-1.amazonaws.com/multicloud-dr/data-processor:latest"
+  "pdf_generator" = "503492729400.dkr.ecr.us-east-1.amazonaws.com/multicloud-dr/pdf-generator:latest"
+}
+ecs_cluster_arn = "arn:aws:ecs:us-east-1:503492729400:cluster/multicloud-dr-cluster"
+ecs_cluster_name = "multicloud-dr-cluster"
+private_subnet_ids = [
+  "subnet-0bfbb119d03a52a77",
+  "subnet-08b587ba57af6afd2",
+]
+public_subnet_ids = [
+  "subnet-03dcbcef834c8e2d3",
+  "subnet-0e1be75543ea35ca7",
+]
+s3_bucket_arn = "arn:aws:s3:::multicloud-pdf-storage-dios-2025"
+s3_bucket_name = "multicloud-pdf-storage-dios-2025"
+service_endpoints = {
+  "api_gateway" = "http://multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com/api/info"
+  "data_processor" = "http://multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com/data/save"
+  "health_check" = "http://multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com/health"
+  "pdf_generator" = "http://multicloud-dr-alb-2093981843.us-east-1.elb.amazonaws.com/pdf/generate"
+}
+vpc_id = "vpc-021ec9618fa8b4f56"
